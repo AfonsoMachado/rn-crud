@@ -3,6 +3,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import UserList from './views/UserList';
 import UserForm from './views/UserForm';
+import {Button, Icon} from 'react-native-elements';
+import {StatusBar} from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -10,9 +12,39 @@ export default (props) => {
   return (
     <NavigationContainer>
       {/* configuração de navegação em pilha */}
-      <Stack.Navigator initialRouteName="UserList">
-        <Stack.Screen name="UserList" component={UserList} />
-        <Stack.Screen name="UserForm" component={UserForm} />
+      <StatusBar backgroundColor="#f4511e" barStyle="default" />
+      <Stack.Navigator
+        initialRouteName="UserList"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
+        <Stack.Screen
+          name="UserList"
+          component={UserList}
+          options={({navigation}) => {
+            return {
+              title: 'Lista de Usuários',
+              headerRight: () => (
+                <Button
+                  onPress={() => navigation.navigate('UserForm')}
+                  type="clear"
+                  icon={<Icon name="add" size={25} color="white" />}
+                />
+              ),
+            };
+          }}
+        />
+        <Stack.Screen
+          name="UserForm"
+          component={UserForm}
+          options={{title: 'Formulário de Usuários'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
