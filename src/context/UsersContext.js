@@ -4,10 +4,23 @@ import users from '../data/users';
 const initialState = {users};
 const UsersContext = createContext({});
 
+const actions = {
+  deleteUser(state, action) {
+    const user = action.payload;
+    return {
+      // para captuaar todos os atributos existentes no state, nesse caso somente user
+      ...state,
+      // se for diferente permanece na lista, caso seja igual, exclui da lista, gerarndo um novo estado
+      users: state.users.filter((u) => u.id !== user.id),
+    };
+  },
+};
+
 export const UsersProvider = (props) => {
   function reducer(state, action) {
-    console.warn(state, action);
-    return state;
+    // se o nome da função actions for igual a action.type
+    const fn = actions[action.type];
+    return fn ? fn(state, action) : state;
   }
 
   // dispatch é a forma para invocar um evento
