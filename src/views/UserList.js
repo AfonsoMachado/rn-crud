@@ -6,14 +6,19 @@ import users from '../data/users';
 
 export default (props) => {
   // definindo o contexto a ser usado, useContext usado paraacessar os dados providos pelo Provider
-  const {state} = useContext(UsersContext);
+  const {state, dispatch} = useContext(UsersContext);
 
   function confirmUserDeletion(user) {
     Alert.alert('Excluir Usuário', 'Deseja excluir o usuário?', [
       {
         text: 'Sim',
         onPress() {
-          console.warn('delete' + user.id);
+          dispatch({
+            // dados da action
+            type: 'deleteUser',
+            // dados passado junto com a action
+            payload: user,
+          });
         },
       },
       {
