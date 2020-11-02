@@ -5,6 +5,16 @@ const initialState = {users};
 const UsersContext = createContext({});
 
 const actions = {
+  createUser(state, action) {
+    const user = action.payload;
+    user.id = Math.random();
+    return {
+      // pegando todos os atributos do estado atual
+      ...state,
+      // lista anterior mais o usuario atual
+      users: [...state.users, user],
+    };
+  },
   deleteUser(state, action) {
     const user = action.payload;
     return {
@@ -19,6 +29,7 @@ const actions = {
 export const UsersProvider = (props) => {
   function reducer(state, action) {
     // se o nome da função actions for igual a action.type
+    // ?????
     const fn = actions[action.type];
     return fn ? fn(state, action) : state;
   }
